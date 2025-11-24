@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
+import { useState, useEffect } from "react";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -9,6 +10,18 @@ const inter = Inter({
 
 export default function Home() {
   const siteUrl = "https://skaira.dev";
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    // Check for saved preference or system preference
+    const saved = localStorage.getItem("darkMode");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setIsDark(saved ? saved === "true" : prefersDark);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("darkMode", isDark.toString());
+  }, [isDark]);
 
   return (
     <>
@@ -42,90 +55,101 @@ export default function Home() {
         <link rel="canonical" href={siteUrl} />
       </Head>
 
-      <div className={`${inter.className} bg-white text-black transition-colors duration-500 selection:bg-black selection:text-white`}>
-        <Navigation />
+      <div className={`${inter.className} ${isDark ? 'bg-black text-white' : 'bg-white text-black'} transition-colors duration-500 ${isDark ? 'selection:bg-white selection:text-black' : 'selection:bg-black selection:text-white'}`}>
+        <Navigation isDark={isDark} setIsDark={setIsDark} />
         
         <main className="min-h-screen flex flex-col justify-center px-6 md:px-12 pt-32 pb-24">
-          <HeroSection />
-          <ThesisSection />
-          <RecruitmentSection />
+          <HeroSection isDark={isDark} />
+          <ThesisSection isDark={isDark} />
+          <RecruitmentSection isDark={isDark} />
         </main>
 
-        <Footer />
+        <Footer isDark={isDark} />
       </div>
     </>
   );
 }
 
-function Navigation() {
+function Navigation({ isDark, setIsDark }: { isDark: boolean; setIsDark: (val: boolean) => void }) {
   return (
-    <nav className="fixed top-0 w-full px-6 py-8 md:px-12 md:py-10 flex justify-between items-center z-50 bg-white/90 backdrop-blur-sm">
+    <nav className={`fixed top-0 w-full px-6 py-8 md:px-12 md:py-10 flex justify-between items-center z-50 ${isDark ? 'bg-black/90' : 'bg-white/90'} backdrop-blur-sm`}>
       <div className="font-medium tracking-tight text-lg">Skaira</div>
-      <div className="flex gap-6 text-sm text-gray-500">
-        <a href="mailto:founders@skaira.dev" className="hover:text-black transition-colors">
+      <div className="flex items-center gap-6 text-sm">
+        <a href="mailto:founders@skaira.dev" className={`${isDark ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'} transition-colors`}>
           Contact
         </a>
+        <button
+          onClick={() => setIsDark(!isDark)}
+          className={`${isDark ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'} transition-colors`}
+          aria-label="Toggle dark mode"
+        >
+          {isDark ? (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          ) : (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          )}
+        </button>
       </div>
     </nav>
   );
 }
 
-function HeroSection() {
+function HeroSection({ isDark }: { isDark: boolean }) {
   return (
     <section className="max-w-[720px] mx-auto mb-24">
       <h1 className="text-4xl md:text-5xl font-medium tracking-tight leading-[1.1] mb-8">
         The end of &quot;work about work&quot;.
       </h1>
-      <p className="text-xl md:text-2xl text-gray-500 leading-relaxed font-light">
+      <p className={`text-xl md:text-2xl ${isDark ? 'text-gray-400' : 'text-gray-500'} leading-relaxed font-light`}>
         Skaira is the autonomous nervous system for the modern enterprise.
       </p>
     </section>
   );
 }
 
-function ThesisSection() {
+function ThesisSection({ isDark }: { isDark: boolean }) {
   return (
-    <section id="mission" className="max-w-[720px] mx-auto space-y-10 text-lg md:text-xl leading-relaxed font-light text-gray-800">
+    <section id="mission" className={`max-w-[720px] mx-auto space-y-10 text-lg md:text-xl leading-relaxed font-light ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>
       <p>
-        Every company is dying from the same disease, and most don&apos;t even know it. We call it the <span className="font-medium text-black">Coordination Tax</span>, and it works like this: you hire brilliant people to build and create, but they spend half their day in the gaps between the work, explaining context and waiting for handoffs while what actually matters gets squeezed into whatever time remains. The cruel joke is that growth makes it worse. The more people you add, the slower everything moves, until <span className="font-medium text-black">the friction of coordination becomes greater than the force of creation itself</span>.
+        Every company is dying from the same disease. We call it the <span className={`font-medium ${isDark ? 'text-white' : 'text-black'}`}>Coordination Tax</span>: you hire brilliant people to build and create, but they spend half their day in the gaps between the work, explaining context and waiting for handoffs. The more people you add, the slower everything moves, until <span className={`font-medium ${isDark ? 'text-white' : 'text-black'}`}>the friction of coordination becomes greater than the force of creation itself</span>.
       </p>
 
       <p>
-        We&apos;re building something different. Not tools that automate tasks, but <span className="font-medium text-black">systems that think and coordinate</span> and organize themselves into teams that work while humans sleep. Systems that don&apos;t just execute commands but <span className="font-medium text-black">understand intent</span>, that can navigate the entire topology of your organization and close the loops that normally stay open. The future isn&apos;t humans or AI competing for territory, it&apos;s both working in tandem, each doing what it does best while the other fills the gaps that used to swallow whole days.
+        We&apos;re building something different. Not tools that automate tasks, but <span className={`font-medium ${isDark ? 'text-white' : 'text-black'}`}>systems that think and coordinate</span> and organize themselves into teams that work while humans sleep. Systems that don&apos;t just execute commands but <span className={`font-medium ${isDark ? 'text-white' : 'text-black'}`}>understand intent</span>, that navigate the entire topology of your organization and close the loops that normally stay open.
       </p>
 
       <p>
-        What we&apos;re really building are <span className="font-medium text-black">organizations that heal themselves</span>. Where knowledge doesn&apos;t disappear when people leave because it lives in the system. Where inconsistencies get hunted down and fixed before they metastasize into fires. Where the heavy work, the kind that takes hours of focused attention on tasks that drain rather than energize, happens in the background while your team focuses on the problems only humans can solve. You wake up and <span className="font-medium text-black">the work is done</span>, not because someone stayed up all night, but because something else was running in parallel, coordinating across all the surfaces where work actually lives.
+        This is <span className={`font-medium ${isDark ? 'text-white' : 'text-black'}`}>uncharted territory</span>. Autonomous systems that organize themselves like real teams, executing complex operations without constant supervision, bridging timezones and context gaps so completely that <span className={`font-medium ${isDark ? 'text-white' : 'text-black'}`}>small teams can move with the force of armies</span>. We&apos;re obsessed with the hardest problems in distributed systems and autonomous reasoning because we believe the coordination tax is the single biggest bottleneck in what humans can build together.
       </p>
 
       <p>
-        This is <span className="font-medium text-black">uncharted territory</span>. Autonomous systems that organize themselves like real teams, that execute complex operations across codebases and tools without constant supervision, that bridge timezones and context gaps so completely that <span className="font-medium text-black">small teams can move with the force of armies</span>. We&apos;re obsessed with the hardest problems in distributed systems and autonomous reasoning because we believe the coordination tax is the single biggest bottleneck in what humans can build together. Solving it doesn&apos;t just make companies better, it changes <span className="font-medium text-black">the fundamental physics of how work happens</span>.
+        If you&apos;re ready to build something that could redefine what small teams are capable of, we&apos;re offering you that chance.
       </p>
 
-      <p>
-        If you&apos;re ready to build something that&apos;s never been built before, something that could redefine what small teams are capable of, we&apos;re offering you that chance.
-      </p>
-
-      <p className="text-black font-normal">
+      <p className={`${isDark ? 'text-white' : 'text-black'} font-normal`}>
         Now is the time. Join us.
       </p>
     </section>
   );
 }
 
-function RecruitmentSection() {
+function RecruitmentSection({ isDark }: { isDark: boolean }) {
   return (
-    <section id="team" className="max-w-[720px] mx-auto mt-32 pt-12 border-t border-gray-100">
+    <section id="team" className={`max-w-[720px] mx-auto mt-32 pt-12 border-t ${isDark ? 'border-gray-800' : 'border-gray-100'}`}>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
         <div>
           <h3 className="font-medium mb-2">Skaira Inc.</h3>
-          <p className="text-gray-500 text-sm max-w-xs">
+          <p className={`${isDark ? 'text-gray-400' : 'text-gray-500'} text-sm max-w-xs`}>
             Work with us from anywhere
           </p>
         </div>
         <a 
           href="mailto:jobs@skaira.dev" 
-          className="group flex items-center gap-2 text-black border-b border-black pb-0.5 hover:text-gray-600 hover:border-gray-400 transition-all"
+          className={`group flex items-center gap-2 ${isDark ? 'text-white border-white hover:text-gray-400 hover:border-gray-400' : 'text-black border-black hover:text-gray-600 hover:border-gray-400'} border-b pb-0.5 transition-all`}
         >
           Join us
           <ArrowIcon />
@@ -153,14 +177,14 @@ function ArrowIcon() {
   );
 }
 
-function Footer() {
+function Footer({ isDark }: { isDark: boolean }) {
   return (
-    <footer className="px-6 md:px-12 py-8 flex justify-between items-end text-xs text-gray-400 uppercase tracking-widest">
+    <footer className={`px-6 md:px-12 py-8 flex justify-between items-end text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'} uppercase tracking-widest`}>
       <div>
         &copy; 2025 Skaira
       </div>
       <div className="flex gap-4">
-        <a href="mailto:founders@skaira.dev" className="hover:text-black transition-colors">
+        <a href="mailto:founders@skaira.dev" className={`${isDark ? 'hover:text-white' : 'hover:text-black'} transition-colors`}>
           Contact
         </a>
       </div>
