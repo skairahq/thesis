@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom cursor blink animation */
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Selection color to match the stark aesthetic */
+::selection {
+  background: #000;
+  color: #fff;
+}
+
+.dark ::selection {
+  background: #fff;
+  color: #000;
+}
