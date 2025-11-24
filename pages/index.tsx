@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ 
@@ -7,18 +8,52 @@ const inter = Inter({
 });
 
 export default function Home() {
-  return (
-    <div className={`${inter.className} bg-white text-black transition-colors duration-500 selection:bg-black selection:text-white`}>
-      <Navigation />
-      
-      <main className="min-h-screen flex flex-col justify-center px-6 md:px-12 pt-32 pb-24">
-        <HeroSection />
-        <ThesisSection />
-        <RecruitmentSection />
-      </main>
+  const siteUrl = "https://skaira.dev";
 
-      <Footer />
-    </div>
+  return (
+    <>
+      <Head>
+        <title>Skaira</title>
+        <meta name="description" content="Systems that think and coordinate, organizing themselves into teams that work while humans sleep. We're building organizations that heal themselves, where the coordination tax is eliminated and small teams can move with the force of armies." />
+        <meta name="keywords" content="coordination tax, autonomous agents, autonomous systems, AI coordination, developer productivity, self healing organization, enterprise automation, distributed systems, multi agent systems, Skaira" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={siteUrl} />
+        <meta property="og:title" content="Skaira" />
+        <meta property="og:description" content="Systems that think and coordinate, organizing themselves into teams that work while humans sleep. Building organizations that heal themselves and eliminate the coordination tax." />
+        <meta property="og:image" content={`${siteUrl}/background.png`} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Skaira" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={siteUrl} />
+        <meta name="twitter:title" content="Skaira" />
+        <meta name="twitter:description" content="Systems that think and coordinate, organizing themselves into teams that work while humans sleep. Building organizations that heal themselves and eliminate the coordination tax." />
+        <meta name="twitter:image" content={`${siteUrl}/background.png`} />
+        <meta name="twitter:creator" content="@skaira_ai" />
+        <meta name="twitter:site" content="@skaira_ai" />
+        
+        {/* Additional Meta Tags */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+        <meta name="author" content="Skaira Inc." />
+        <link rel="canonical" href={siteUrl} />
+      </Head>
+
+      <div className={`${inter.className} bg-white text-black transition-colors duration-500 selection:bg-black selection:text-white`}>
+        <Navigation />
+        
+        <main className="min-h-screen flex flex-col justify-center px-6 md:px-12 pt-32 pb-24">
+          <HeroSection />
+          <ThesisSection />
+          <RecruitmentSection />
+        </main>
+
+        <Footer />
+      </div>
+    </>
   );
 }
 
@@ -52,53 +87,23 @@ function ThesisSection() {
   return (
     <section id="mission" className="max-w-[720px] mx-auto space-y-10 text-lg md:text-xl leading-relaxed font-light text-gray-800">
       <p>
-        There&apos;s a hidden disease killing every modern company. We call it the <span className="font-medium text-black">Coordination Tax</span>.
+        Every company is dying from the same disease, and most don&apos;t even know it. We call it the <span className="font-medium text-black">Coordination Tax</span>, and it works like this: you hire brilliant people to build and create, but they spend half their day in the gaps between the work, explaining context and waiting for handoffs while what actually matters gets squeezed into whatever time remains. The cruel joke is that growth makes it worse. The more people you add, the slower everything moves, until the friction of coordination becomes greater than the force of creation itself.
       </p>
 
       <p>
-        You hire brilliant people to build and create. Instead, they spend half their day updating tickets, explaining context, and waiting for handoffs. The work that matters, the actual creation, gets squeezed into the margins. As you grow, this tax compounds. The more people you add, the slower everything moves. Innovation suffocates under the weight of process.
+        We&apos;re building something different. Not tools that automate tasks, but systems that think and coordinate and organize themselves into teams that work while humans sleep. Systems that don&apos;t just execute commands but understand intent, that can navigate the entire topology of your organization and close the loops that normally stay open. The future isn&apos;t humans or AI competing for territory, it&apos;s both working in tandem, each doing what it does best while the other fills the gaps that used to swallow whole days.
       </p>
 
       <p>
-        Skaira is our answer. We&apos;re building the <strong>Night Shift</strong>: autonomous agents that live inside your codebase and tools, working while your team sleeps.
+        What we&apos;re really building are organizations that heal themselves. Where knowledge doesn&apos;t disappear when people leave because it lives in the system. Where inconsistencies get hunted down and fixed before they metastasize into fires. Where the heavy work, the kind that takes hours of focused attention on tasks that drain rather than energize, happens in the background while your team focuses on the problems only humans can solve. You wake up and the work is done, not because someone stayed up all night, but because something else was running in parallel, coordinating across all the surfaces where work actually lives.
       </p>
 
       <p>
-        They don&apos;t just automate tasks. They coordinate. They think. They organize themselves into teams that execute complex operations without someone standing over them. While your engineers dream, Skaira is fixing bugs, updating documentation, keeping Linear and GitHub and Slack in perfect sync. When morning comes, your team wakes up to a done list, not a to-do list.
+        This is uncharted territory. Autonomous systems that organize themselves like real teams, that execute complex operations across codebases and tools without constant supervision, that bridge timezones and context gaps so completely that small teams can move with the force of armies. We&apos;re obsessed with the hardest problems in distributed systems and autonomous reasoning because we believe the coordination tax is the single biggest bottleneck in what humans can build together. Solving it doesn&apos;t just make companies better, it changes the fundamental physics of how work happens.
       </p>
 
       <p>
-        The future isn&apos;t humans or AI. It&apos;s both, working in tandem. Humans focus on intent and creativity, the things only we can do. Skaira handles execution and coordination, the things that drain us.
-      </p>
-
-      <div className="border-l-2 border-gray-200 pl-6 my-16">
-        <p className="italic text-gray-600">
-          We&apos;re exploring uncharted territory: autonomous agents that organize themselves like real teams, executing complex operations without constant supervision. Agents that actually get work done.
-        </p>
-      </div>
-
-      <p>
-        This isn&apos;t about replacing people. It&apos;s about augmenting them. Making small teams feel like armies. Removing the friction that prevents great work from happening.
-      </p>
-
-      <p>
-        We&apos;re building organizations that heal themselves. Where losing someone doesn&apos;t break everything because the knowledge lives in the system. Where documentation updates itself when code changes. Where deadlines at risk get flagged before they slip. Where a swarm of agents actively hunts down inconsistencies and fixes them before they become fires.
-      </p>
-
-      <p>
-        When the work gets heavy (deep research, long running infrastructure tasks), Skaira spins up specialized sub-swarms. They can spend hours gathering data you need, provisioning servers, running migrations while you sleep, then cleaning up after themselves. You ask for a result. You get the result. You never touch the machinery.
-      </p>
-
-      <p>
-        It becomes the universal co-worker that bridges timezones and context gaps. The one who always has the keys to everything. Who can tell you the status of any process, anywhere in your stack, instantly. Making your team feel like it&apos;s running 24/7 even when everyone is resting.
-      </p>
-
-      <p>
-        We&apos;re a team in India building for the world. We&apos;re obsessed with cracking the hardest problems in distributed systems and autonomous reasoning. We believe the coordination tax is the single biggest bottleneck in human productivity. Solving it changes everything.
-      </p>
-
-      <p>
-        If you&apos;re ready to do your life&apos;s work, if you want to build the future where small teams move like giants and humans focus purely on what they do best, we&apos;re offering you that chance.
+        If you&apos;re ready to build something that&apos;s never been built before, something that could redefine what small teams are capable of, we&apos;re offering you that chance.
       </p>
 
       <p className="text-black font-normal">
