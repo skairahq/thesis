@@ -13,14 +13,15 @@ export default function Home() {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    // Check for saved preference or system preference
+    // Check for saved preference, default to dark mode
     const saved = localStorage.getItem("darkMode");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    setIsDark(saved ? saved === "true" : prefersDark);
+    setIsDark(saved ? saved === "true" : true);
   }, []);
 
   useEffect(() => {
     localStorage.setItem("darkMode", isDark.toString());
+    // Update body background color
+    document.body.style.backgroundColor = isDark ? '#000000' : '#ffffff';
   }, [isDark]);
 
   return (
